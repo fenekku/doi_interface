@@ -1,0 +1,7 @@
+Django ~= 2.0
+crossrefapi == 1.3.0
+
+# tests but no time
+pytest~=3.0.5
+pytest-django~=3.1.2
+tox

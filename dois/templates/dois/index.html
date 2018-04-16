@@ -1,0 +1,33 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset="utf-8"/>
+  <title>DOI Interface</title>
+  <style type="text/css">
+  </style>
+</head>
+
+<body>
+  <h1>DOI Interface</h1>
+  <input id="doi" type="text" name="doi_input" placeholder="Enter your DOI here"><input type="button" value="Search" onClick="getDOI()">
+  <div id="doi_display">
+
+  </div>
+
+  <script src="{% static 'doi_interface/js/jquery-1.12.4.min.js' %}"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+    function getDOI() {
+      doi = document.getElementById("doi");
+      $.get( "/get_doi" + "?doi="+ doi.value, function( data ) {
+        $( "#doi_display" ).html( data );
+        // alert( "Load was performed." );
+      });
+    }
+  </script>
+</body>
+
+</html>
