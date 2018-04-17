@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from dois.views import get_doi, index
+from dois import views
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('get_doi/', get_doi, name='doi_enpoint')
+    path('', views.index, name='index'),
+    path('fake_doi', views.fake_doi, name='fake_doi_endpoint'),
+    path('<path:doi>', views.get_doi, name='doi_endpoint'),
 ]

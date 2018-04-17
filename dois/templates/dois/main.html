@@ -14,18 +14,22 @@
   <h1>DOI Interface</h1>
   <input id="doi" type="text" name="doi_input" placeholder="Enter your DOI here"><input type="button" value="Search" onClick="getDOI()">
   <div id="doi_display">
-
+    {% if doi %}
+      <h3>{{doi.DOI}}</h3>
+        <table>
+        {% for k,v in doi.items %}
+          <tr><td><b>{{k}}</b></td><td>{{v}}</td></tr>
+        {% endfor %}
+        </table>
+    {% else %}
+      Nothing here.
+    {% endif %}
   </div>
 
-  <script src="{% static 'doi_interface/js/jquery-1.12.4.min.js' %}"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script type="text/javascript">
     function getDOI() {
       doi = document.getElementById("doi");
-      $.get( "/get_doi" + "?doi="+ doi.value, function( data ) {
-        $( "#doi_display" ).html( data );
-        // alert( "Load was performed." );
-      });
+      location.href = "/" + doi.value;
     }
   </script>
 </body>

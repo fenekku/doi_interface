@@ -10,5 +10,5 @@ This project allows one to search for DOI content
 
 ## Running tests
 
-1- `tox`
+1- python manage.py test (if you want pretty colors and better error messages: `pytest`)
 
