@@ -32,3 +32,28 @@ class ViewTests(TestCase):
 
         doi = response.context.get("doi", {})
         assert doi == {}
+
+    def test_past_dois(self):
+        # Test first visit with valid DOI
+        # Note that using mocking would be ideal
+        response = self.client.get(
+            reverse('doi_endpoint', args=['10.1590/0102-311x00133115'])
+        )
+        assert response.context.get("past_dois", []) == []
+        assert self.client.session.get("present_doi") == '10.1590/0102-311x00133115'
+
+        # Test second visit with valid DOI
+        response = self.client.get(
+            reverse('doi_endpoint', args=['10.1016/s0305-9006(99)00007-0'])
+        )
+
+        assert response.context["past_dois"] == ['10.1590/0102-311x00133115']
+        assert self.client.session.get("present_doi") == '10.1016/s0305-9006(99)00007-0'
+
+        # Test third visit with invalid DOI
+        response = self.client.get(
+            reverse('doi_endpoint', args=['10.1016/s0305-9006(99)-invalid-doi'])
+        )
+
+        assert response.context["past_dois"] == ['10.1590/0102-311x00133115', '10.1016/s0305-9006(99)00007-0']
+        assert self.client.session.get("present_doi") == '10.1016/s0305-9006(99)-invalid-doi'

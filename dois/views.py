@@ -8,7 +8,19 @@ def index(request):
 def get_doi(request, doi):
     works = Works()
     result = works.doi(doi)
-    context = {"doi": result} if result else {}
+
+    context = {}
+
+    if 'present_doi' in request.session:
+        if 'past_dois' in request.session:
+            request.session['past_dois'] += [request.session['present_doi']]
+        else:
+            request.session['past_dois'] = [request.session['present_doi']]
+        context["past_dois"] = request.session['past_dois']
+
+    request.session['present_doi'] = doi
+
+    context.update({"doi": result} if result else {})
     return render(request, "dois/main.html", context)
 
 def fake_doi(request):

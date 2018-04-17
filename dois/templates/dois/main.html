@@ -13,6 +13,13 @@
 <body>
   <h1>DOI Interface</h1>
   <input id="doi" type="text" name="doi_input" placeholder="Enter your DOI here"><input type="button" value="Search" onClick="getDOI()">
+  {% if past_dois %}
+    <p> Past Searches:&nbsp;
+    {% for doi in past_dois %}
+      <a href="{% url 'doi_endpoint' doi %}">{{doi}}</a>{% if not forloop.last %},&nbsp;{% endif %}
+    {% endfor %}
+    </p>
+  {% endif %}
   <div id="doi_display">
     {% if doi %}
       <h3>{{doi.DOI}}</h3>
@@ -31,6 +38,12 @@
       doi = document.getElementById("doi");
       location.href = "/" + doi.value;
     }
+    doi = document.getElementById("doi");
+    doi.onkeydown = function(event) {
+      if (event.keyCode == 13) {
+        getDOI();
+      }
+    };
   </script>
 </body>
 
